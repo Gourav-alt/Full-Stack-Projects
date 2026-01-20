@@ -1,23 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
+import Login from "./components/Login";
+import ProductList from "./components/ProductList";
+import AddProduct from "./components/AddProduct";
 
 function App() {
+  const { isLoggedIn, userName, role, logout } =
+    useContext(AuthContext);
+
+  if (!isLoggedIn) return <Login />;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2>Welcome {userName} ({role})</h2>
+      <button onClick={logout}>Logout</button>
+
+      {role === "admin" && <AddProduct />}
+      <ProductList />
     </div>
   );
 }
